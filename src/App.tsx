@@ -4,9 +4,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Folders
 import Navbar from './components/Drawer/Navbar';
 import Sidebar from './components/Drawer/Sidebar';
-import Home from './pages/Home';
-import Expense from './pages/ExpenseInformation';
-import Information from './pages/Information';
+import Home from './pages/Home/Home';
+import Expense from './pages/Expense/Expense';
+import Information from './pages/Information/Information';
 
 
 const App = () => {
