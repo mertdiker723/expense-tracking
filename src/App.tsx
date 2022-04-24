@@ -7,25 +7,28 @@ import Sidebar from './components/Drawer/Sidebar';
 import Home from './pages/Home/Home';
 import Expense from './pages/Expense/Expense';
 import Information from './pages/Information/Information';
+import { ProvideStore } from './store/Store';
 
 
 const App = () => {
   return (
-    <Router>
-      <Box sx={{ display: 'flex' }}>
-        <CssBaseline />
-        <Navbar />
-        <Sidebar />
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-          <Toolbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/expense" element={<Expense />} />
-            <Route path="/information" element={<Information />} />
-          </Routes>
+    <ProvideStore>
+      <Router>
+        <Box sx={{ display: 'flex' }}>
+          <CssBaseline />
+          <Navbar />
+          <Sidebar />
+          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+            <Toolbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/expense" element={<Expense />} />
+              <Route path="/information" element={<Information />} />
+            </Routes>
+          </Box>
         </Box>
-      </Box>
-    </Router>
+      </Router>
+    </ProvideStore>
   )
 }
 

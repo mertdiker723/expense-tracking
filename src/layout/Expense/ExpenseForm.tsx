@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { ProvideContext } from "../../store/Store";
 
 // Material UI
-import { Grid, TextField, InputAdornment } from "@mui/material"
+import { Grid, TextField, InputAdornment, Button } from "@mui/material"
 
 // Icons
 import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
@@ -14,6 +15,7 @@ import { IExpense } from "../../models/expense.types";
 const ExpenseForm = () => {
     const [coin, setCoin] = useState<IExpense>({} as IExpense);
 
+    const { createExpense } = useContext(ProvideContext);
 
     const coinHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -21,6 +23,10 @@ const ExpenseForm = () => {
             ...coin,
             [name]: value
         })
+    }
+
+    const sendItems = () => {
+        createExpense(coin);
     }
 
     const totalCoinCalculation = (): number | "" => {
@@ -139,7 +145,11 @@ const ExpenseForm = () => {
                         variant="outlined"
                     />
                 </Grid>
+                <Grid item xs={12}>
+                    <Button onClick={sendItems} variant="contained">Send</Button>
+                </Grid>
             </Grid>
+
 
         </Grid>
     )
