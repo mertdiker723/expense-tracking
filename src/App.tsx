@@ -7,12 +7,12 @@ import Sidebar from './components/Drawer/Sidebar';
 import Home from './pages/Home/Home';
 import Expense from './pages/Expense/Expense';
 import Information from './pages/Information/Information';
-import { ProvideStore } from './store/Store';
+import { StoreProvider } from './store/Store';
 
 
 const App = () => {
   return (
-    <ProvideStore>
+    <StoreProvider>
       <Router>
         <Box sx={{ display: 'flex' }}>
           <CssBaseline />
@@ -28,7 +28,7 @@ const App = () => {
           </Box>
         </Box>
       </Router>
-    </ProvideStore>
+    </StoreProvider>
   )
 }
 

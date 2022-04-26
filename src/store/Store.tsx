@@ -7,7 +7,7 @@ export const ProvideContext = createContext({} as any);
 type ProvideProps = {
     children: React.ReactNode;
 }
-export const ProvideStore = ({ children }: ProvideProps) => {
+export const StoreProvider = ({ children }: ProvideProps) => {
     const { expense, createExpense } = Expense();
 
     return (
