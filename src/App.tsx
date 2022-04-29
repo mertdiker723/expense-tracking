@@ -8,7 +8,7 @@ import Home from './pages/Home/Home';
 import Expense from './pages/Expense/Expense';
 import Information from './pages/Information/Information';
 import { StoreProvider } from './store/Store';
-
+import { ToastContainer } from 'react-toastify';
 
 const App = () => {
   return (
@@ -27,6 +27,7 @@ const App = () => {
             </Routes>
           </Box>
         </Box>
+        <ToastContainer />
       </Router>
     </StoreProvider>
   )

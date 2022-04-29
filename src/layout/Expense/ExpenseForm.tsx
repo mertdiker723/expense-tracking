@@ -9,6 +9,7 @@ import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantity
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 
+import { toast } from 'react-toastify';
 // Folders
 import { IExpense } from "../../models/expense.types";
 
@@ -27,6 +28,7 @@ const ExpenseForm = () => {
 
     const sendItems = () => {
         createExpense(coin);
+        toast("Wow so easy!");
     }
 
     const totalCoinCalculation = (): number | "" => {
@@ -44,7 +46,7 @@ const ExpenseForm = () => {
     return (
         <Grid container >
             <Grid container spacing={3}>
-                <Grid item xs={6} md={3}>
+                <Grid item xs={12} sm={6} md={3}>
                     <TextField
                         id="coinName"
                         name="coinName"
@@ -58,7 +60,7 @@ const ExpenseForm = () => {
                         onChange={coinHandleChange}
                     />
                 </Grid>
-                <Grid item xs={6} md={3}>
+                <Grid item xs={12} sm={6}  md={3}>
                     <TextField
                         id="coinCount"
                         name="coinCount"
@@ -73,7 +75,7 @@ const ExpenseForm = () => {
                         onChange={coinHandleChange}
                     />
                 </Grid>
-                <Grid item xs={6} md={3}>
+                <Grid item xs={12} sm={6}  md={3}>
                     <TextField
                         id="buyCoinValue"
                         name="buyCoinValue"
@@ -88,7 +90,7 @@ const ExpenseForm = () => {
                         onChange={coinHandleChange}
                     />
                 </Grid>
-                <Grid item xs={6} md={3}>
+                <Grid item xs={12} sm={6}  md={3}>
                     <TextField
                         id="totalCoin"
                         fullWidth
@@ -103,7 +105,7 @@ const ExpenseForm = () => {
                 </Grid>
             </Grid>
             <Grid container mt={1} spacing={3}>
-                <Grid item xs={6} md={4}>
+                <Grid item xs={12} sm={6}  md={4}>
                     <TextField
                         id="sellCoinValue"
                         name="sellCoinValue"
@@ -118,7 +120,7 @@ const ExpenseForm = () => {
                         onChange={coinHandleChange}
                     />
                 </Grid>
-                <Grid item xs={6} md={4}>
+                <Grid item xs={12} sm={6}  md={4}>
                     <TextField
                         id="profitLoss"
                         fullWidth
@@ -132,7 +134,7 @@ const ExpenseForm = () => {
                         variant="outlined"
                     />
                 </Grid>
-                <Grid item xs={6} md={4}>
+                <Grid item xs={12} sm={6}  md={4}>
                     <TextField
                         id="availableBalance"
                         fullWidth
