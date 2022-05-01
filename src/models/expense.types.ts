@@ -1,5 +1,7 @@
+import { ToastPosition } from 'react-toastify';
+
 export interface IExpense {
-    id: string;
+    id?: string;
     coinName: string;
     coinCount: number;
     buyCoinValue: number;
@@ -17,4 +19,15 @@ export interface ITextField {
     icon: React.ReactNode | string;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     disabled: boolean;
+}
+
+
+export interface IInformationToastify {
+    position: ToastPosition | undefined;
+    autoClose: number | false;
+    hideProgressBar: boolean;
+    closeOnClick: boolean;
+    pauseOnHover: boolean;
+    draggable: boolean;
+    progress: undefined;
 }

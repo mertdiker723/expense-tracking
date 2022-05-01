@@ -11,11 +11,19 @@ import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlin
 
 import { toast } from 'react-toastify';
 // Folders
-import { IExpense, ITextField } from "../../models/expense.types";
+import { IExpense, ITextField, IInformationToastify } from "../../models/expense.types";
 
 const ExpenseForm = () => {
     const [coin, setCoin] = useState<IExpense>({} as IExpense);
-
+    const informationToastify: IInformationToastify = {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+    }
     const { createExpense } = useContext(ProvideContext);
 
     const coinHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,8 +35,15 @@ const ExpenseForm = () => {
     }
 
     const sendItems = () => {
-        createExpense(coin);
-        toast("Wow so easy!");
+        const { sellCoinValue, coinName, coinCount, buyCoinValue } = coin;
+        if (sellCoinValue && coinName && coinCount && buyCoinValue) {
+            createExpense(coin);
+            setCoin({} as IExpense);
+            toast.success("Added!", informationToastify);
+        }
+        else {
+            toast.warn('Fields cannot be empty!', informationToastify);
+        }
     }
 
     const totalCoinCalculation = (): number | "" => {
@@ -134,21 +149,22 @@ const ExpenseForm = () => {
             <Grid container spacing={3}>
                 {
                     textFieldsTop.map(textField => {
+                        const { name, label, value, fullWidth, type, variant, icon, onChange, disabled } = textField;
                         return (
                             <Grid item xs={12} sm={6} md={3} key={textField.id}>
                                 <TextField
-                                    id={textField.name}
-                                    name={textField.name}
-                                    label={textField.label}
-                                    value={textField.value}
-                                    fullWidth={textField.fullWidth}
-                                    type={textField.type}
-                                    variant={textField.variant}
+                                    id={name}
+                                    name={name}
+                                    label={label}
+                                    value={value}
+                                    fullWidth={fullWidth}
+                                    type={type}
+                                    variant={variant}
                                     InputProps={{
-                                        endAdornment: <InputAdornment position="end">{textField.icon}</InputAdornment>,
+                                        endAdornment: <InputAdornment position="end">{icon}</InputAdornment>,
                                     }}
-                                    onChange={textField.onChange}
-                                    disabled={textField.disabled}
+                                    onChange={onChange}
+                                    disabled={disabled}
                                 />
                             </Grid>
                         )
@@ -158,32 +174,31 @@ const ExpenseForm = () => {
             <Grid container mt={1} spacing={3}>
                 {
                     textFieldsBottom.map(textField => {
+                        const { name, label, fullWidth, type, value, variant, icon, onChange, disabled } = textField;
                         return (
                             <Grid item xs={12} sm={6} md={4} key={textField.id}>
                                 <TextField
-                                    id={textField.name}
-                                    name={textField.name}
-                                    label={textField.label}
-                                    fullWidth={textField.fullWidth}
-                                    type={textField.type}
-                                    value={textField.value}
-                                    variant={textField.variant}
+                                    id={name}
+                                    name={name}
+                                    label={label}
+                                    fullWidth={fullWidth}
+                                    type={type}
+                                    value={value}
+                                    variant={variant}
                                     InputProps={{
-                                        endAdornment: <InputAdornment position="end">{textField.icon}</InputAdornment>,
+                                        endAdornment: <InputAdornment position="end">{icon}</InputAdornment>,
                                     }}
-                                    onChange={textField.onChange}
-                                    disabled={textField.disabled}
+                                    onChange={onChange}
+                                    disabled={disabled}
                                 />
                             </Grid>
                         )
                     })
                 }
-                <Grid item xs={12}>
-                    <Button onClick={sendItems} variant="contained">Send</Button>
+                <Grid item xs={12} sm={6} md={2}>
+                    <Button fullWidth onClick={sendItems} variant="contained">Send</Button>
                 </Grid>
             </Grid>
-
-
         </Grid>
     )
 }

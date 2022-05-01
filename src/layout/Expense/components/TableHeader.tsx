@@ -5,6 +5,7 @@ const TableHeader = () => {
     return (
         <TableHead>
             <TableRow>
+                <TableCell />
                 <TableCell align="center">Coin Name</TableCell>
                 <TableCell align="center">Piece Of Coin</TableCell>
                 <TableCell align="center">Buy Price</TableCell>
