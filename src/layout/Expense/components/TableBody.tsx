@@ -5,7 +5,7 @@ import { IExpense } from '../../../models/expense.types';
 type TableBodyProps = {
     data: IExpense[]
 }
-// https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
+
 
 const TableBodyContainer = ({ data }: TableBodyProps) => {
 
@@ -14,7 +14,7 @@ const TableBodyContainer = ({ data }: TableBodyProps) => {
         <TableBody>
 
             {data.length > 0 ? data.map((exp) => (
-                <TableCells exp={exp} />
+                <TableCells key={exp.id} exp={exp} />
             )) : <TableCells noData={"No data Provided"} />
             }
         </TableBody >
