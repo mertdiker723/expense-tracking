@@ -7,6 +7,7 @@ const NestedTableHeader = () => {
                 <TableCell align="left">Total Cost</TableCell>
                 <TableCell align="left">Profit / Loss</TableCell>
                 <TableCell align="left">Total Balance</TableCell>
+                <TableCell />
             </TableRow>
         </TableHead>
     )

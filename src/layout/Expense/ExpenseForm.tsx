@@ -37,7 +37,13 @@ const ExpenseForm = () => {
     const sendItems = () => {
         const { sellCoinValue, coinName, coinCount, buyCoinValue } = coin;
         if (sellCoinValue && coinName && coinCount && buyCoinValue) {
-            createExpense(coin);
+            createExpense({
+                ...coin,
+                totalCost: totalCoinCalculation(),
+                profitLoss: profitLossCalculation(),
+                totalBalance: totalBalance()
+
+            });
             setCoin({} as IExpense);
             toast.success("Added!", informationToastify);
         }
@@ -45,17 +51,16 @@ const ExpenseForm = () => {
             toast.warn('Fields cannot be empty!', informationToastify);
         }
     }
-
     const totalCoinCalculation = (): number | "" => {
-        return (coin.buyCoinValue && coin.coinCount) ? coin.buyCoinValue * coin.coinCount : ""
+        return (coin.buyCoinValue && coin.coinCount) ? +(coin.buyCoinValue * coin.coinCount).toFixed(2) : ""
     }
 
     const profitLossCalculation = (): number | "" => {
-        return (coin.coinCount && coin.sellCoinValue && coin.buyCoinValue) ? (coin.coinCount * coin.sellCoinValue) - (coin.buyCoinValue * coin.coinCount) : "";
+        return (coin.coinCount && coin.sellCoinValue && coin.buyCoinValue) ? +((coin.coinCount * coin.sellCoinValue) - (coin.buyCoinValue * coin.coinCount)).toFixed(2) : "";
     }
 
     const totalBalance = (): number | "" => {
-        return (coin.sellCoinValue && coin.coinCount) ? coin.sellCoinValue * coin.coinCount : ""
+        return (coin.sellCoinValue && coin.coinCount) ? +(coin.sellCoinValue * coin.coinCount).toFixed(2) : ""
     }
     const textFieldsTop: ITextField[] = [
         {

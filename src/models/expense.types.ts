@@ -6,6 +6,9 @@ export interface IExpense {
     coinCount: number;
     buyCoinValue: number;
     sellCoinValue: number;
+    totalCost: number | "";
+    profitLoss: number | "";
+    totalBalance: number | "";
 }
 
 export interface ITextField {

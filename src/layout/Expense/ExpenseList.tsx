@@ -6,7 +6,6 @@ import TableHeader from "./components/TableHeader";
 import TableBodyContainer from "./components/TableBody";
 const ExpenseList = () => {
   const { expense } = useContext(ProvideContext);
-
   return (
     <TableContainer component={Paper} style={{ marginTop: "20px" }}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">

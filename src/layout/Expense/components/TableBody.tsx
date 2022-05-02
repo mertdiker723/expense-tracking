@@ -1,8 +1,9 @@
-import { TableBody, IconButton, TableCell, Typography, Collapse, Box, Table, TableRow } from '@mui/material';
+import { TableBody, IconButton, TableCell, Typography, Collapse, Box, Table, TableRow, Stack } from '@mui/material';
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 import NestedTableHeader from './NestedTableHeader';
 import NestedTableBody from './NestedTableBody';
@@ -55,7 +56,17 @@ const TableCells = (props: TableCellRow) => {
                 <StyledTableCell align="center">{props.exp ? props.exp?.coinCount : noData}</StyledTableCell>
                 <StyledTableCell align="center">{props.exp ? props.exp?.buyCoinValue : noData}</StyledTableCell>
                 <StyledTableCell align="center">{props.exp ? props.exp?.sellCoinValue : noData}</StyledTableCell>
-                {props.exp && <StyledTableCell sx={{ bgcolor: profitLossCalculation(props.exp) > 0 ? "green" : "red", color: "white" }} align="center">{profitLossCalculation(props.exp)}</StyledTableCell>}
+                {props.exp ? <StyledTableCell sx={{ bgcolor: profitLossCalculation(props.exp) > 0 ? "green" : "red", color: "white" }} align="center">{profitLossCalculation(props.exp)}</StyledTableCell> : <StyledTableCell />}
+                <StyledTableCell align="center">
+                    <Stack direction="row" alignItems="center" justifyContent={"center"}>
+                        <IconButton aria-label="delete" size="large">
+                            <DeleteIcon />
+                        </IconButton>
+                        <IconButton aria-label="delete" size="large">
+                            <EditIcon />
+                        </IconButton>
+                    </Stack>
+                </StyledTableCell>
             </StyledTableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>

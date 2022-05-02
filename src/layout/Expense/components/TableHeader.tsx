@@ -11,6 +11,7 @@ const TableHeader = () => {
                 <TableCell align="center">Buy Price</TableCell>
                 <TableCell align="center">Sell Price</TableCell>
                 <TableCell align="center">Profit / Loss</TableCell>
+                <TableCell />
             </TableRow>
         </TableHead>
     );
