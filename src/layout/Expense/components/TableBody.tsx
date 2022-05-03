@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { TableBody, IconButton, TableCell, Typography, Collapse, Box, Table, TableRow, Stack } from '@mui/material';
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -9,18 +10,25 @@ import NestedTableHeader from './NestedTableHeader';
 import NestedTableBody from './NestedTableBody';
 import { StyledTableCell, StyledTableRow } from "../../../styledComponents/Expense/ExpenseStyled";
 import { IExpense } from '../../../models/expense.types';
-import { useState } from 'react';
+
 
 type TableBodyProps = {
-    data: IExpense[]
+    data: IExpense[];
+    setDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
+    setSelectedExpense: React.Dispatch<React.SetStateAction<IExpense | undefined>>;
 }
 
-const TableBodyContainer = ({ data }: TableBodyProps) => {
+const TableBodyContainer = ({ data, setDeleteModal, setSelectedExpense }: TableBodyProps) => {
     return (
         <TableBody>
 
             {data.length > 0 ? data.map((exp) => (
-                <TableCells key={exp.id} exp={exp} />
+                <TableCells
+                    key={exp.id}
+                    exp={exp}
+                    setDeleteModal={setDeleteModal}
+                    setSelectedExpense={setSelectedExpense}
+                />
             )) : <TableCells noData={"No data Provided"} />
             }
         </TableBody >
@@ -30,19 +38,20 @@ const TableBodyContainer = ({ data }: TableBodyProps) => {
 type TableCellRow = {
     exp?: IExpense;
     noData?: string;
+    setDeleteModal?: React.Dispatch<React.SetStateAction<boolean>>;
+    setSelectedExpense?: React.Dispatch<React.SetStateAction<IExpense | undefined>>;
 }
 
 const TableCells = (props: TableCellRow) => {
     const [open, setOpen] = useState<boolean>(false);
-    const profitLossCalculation = (data: IExpense): number | "" => {
-        return (data.coinCount && data.sellCoinValue && data.buyCoinValue) ? (data.coinCount * data.sellCoinValue) - (data.buyCoinValue * data.coinCount) : "";
+
+    const deleteInfo = (data: IExpense | undefined) => {
+        props.setDeleteModal?.(true);
+        props.setSelectedExpense?.(data);
     }
-    const noData = "No Data Provided";
     return (
         <>
-            <StyledTableRow
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
+            <StyledTableRow>
                 <StyledTableCell>
                     <IconButton
                         aria-label="expand row"
@@ -52,24 +61,28 @@ const TableCells = (props: TableCellRow) => {
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </StyledTableCell>
-                <StyledTableCell align="center">{props.exp ? props.exp?.coinName : noData}</StyledTableCell>
-                <StyledTableCell align="center">{props.exp ? props.exp?.coinCount : noData}</StyledTableCell>
-                <StyledTableCell align="center">{props.exp ? props.exp?.buyCoinValue : noData}</StyledTableCell>
-                <StyledTableCell align="center">{props.exp ? props.exp?.sellCoinValue : noData}</StyledTableCell>
-                {props.exp ? <StyledTableCell sx={{ bgcolor: profitLossCalculation(props.exp) > 0 ? "green" : "red", color: "white" }} align="center">{profitLossCalculation(props.exp)}</StyledTableCell> : <StyledTableCell />}
+                <StyledTableCell align="center">{props.exp ? props.exp?.coinName : props.noData}</StyledTableCell>
+                <StyledTableCell align="center">{props.exp ? props.exp?.coinCount : props.noData}</StyledTableCell>
+                <StyledTableCell align="center">{props.exp ? props.exp?.buyCoinValue : props.noData}</StyledTableCell>
+                <StyledTableCell align="center">{props.exp ? props.exp?.sellCoinValue : props.noData}</StyledTableCell>
+                {props.exp ? <StyledTableCell sx={{ bgcolor: props.exp.profitLoss > 0 ? "green" : "red", color: "white" }} align="center">{props.exp.profitLoss}</StyledTableCell> : <StyledTableCell />}
                 <StyledTableCell align="center">
-                    <Stack direction="row" alignItems="center" justifyContent={"center"}>
-                        <IconButton aria-label="delete" size="large">
-                            <DeleteIcon />
-                        </IconButton>
-                        <IconButton aria-label="delete" size="large">
-                            <EditIcon />
-                        </IconButton>
-                    </Stack>
+                    {
+                        !props.noData && (
+                            <Stack direction="row" alignItems="center" justifyContent={"center"}>
+                                <IconButton aria-label="delete" size="large" onClick={() => deleteInfo(props?.exp)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                                <IconButton aria-label="delete" size="large">
+                                    <EditIcon />
+                                </IconButton>
+                            </Stack>
+                        )
+                    }
                 </StyledTableCell>
             </StyledTableRow>
-            <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+            <StyledTableRow>
+                <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box sx={{ margin: 1 }}>
                             <Typography variant="h6" gutterBottom component="div">
@@ -81,9 +94,8 @@ const TableCells = (props: TableCellRow) => {
                             </Table>
                         </Box>
                     </Collapse>
-                </TableCell>
-
-            </TableRow>
+                </StyledTableCell>
+            </StyledTableRow>
         </>
     )
 }

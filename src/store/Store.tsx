@@ -8,12 +8,13 @@ type ProvideProps = {
     children: React.ReactNode;
 }
 export const StoreProvider = ({ children }: ProvideProps) => {
-    const { expense, createExpense } = Expense();
+    const { expense, createExpense, deleteExpense } = Expense();
 
     return (
         <ProvideContext.Provider value={{
             expense,
-            createExpense
+            createExpense,
+            deleteExpense
         }}>
             {children}
         </ProvideContext.Provider>

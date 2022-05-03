@@ -13,7 +13,11 @@ const Expense = () => {
         }]);
     }
 
-    return { expense, createExpense };
+    const deleteExpense = (data?: IExpense) => {
+        setExpense(expense.filter(exp => exp.id !== data?.id));
+    }
+
+    return { expense, createExpense, deleteExpense };
 }
 
 export default Expense
