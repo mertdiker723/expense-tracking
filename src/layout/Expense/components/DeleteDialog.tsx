@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { DialogTitle, DialogContentText, Button, Dialog, DialogActions, DialogContent, IconButton } from '@mui/material';
 import { DialogProps } from '@mui/material/Dialog';
 import CloseIcon from '@mui/icons-material/Close';
 import { IExpense, IInformationToastify } from './../../../models/expense.types';
+import { ProvideContext } from "../../../store/Store";
 import { toast } from 'react-toastify';
 
 type DeleteDialogProps = {
@@ -10,11 +11,11 @@ type DeleteDialogProps = {
     selectedExpense: IExpense | undefined;
     setDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
     setSelectedExpense: React.Dispatch<React.SetStateAction<IExpense | undefined>>;
-    deleteExpense: (data: IExpense) => void;
 }
 
-const DeleteDialog = ({ open, selectedExpense, setDeleteModal, setSelectedExpense, deleteExpense }: DeleteDialogProps) => {
+const DeleteDialog = ({ open, selectedExpense, setDeleteModal, setSelectedExpense }: DeleteDialogProps) => {
     const [maxWidth, setMaxWidth] = useState<DialogProps['maxWidth']>('sm');
+    const { deleteExpense } = useContext(ProvideContext);
 
     const informationToastify: IInformationToastify = {
         position: "bottom-right",

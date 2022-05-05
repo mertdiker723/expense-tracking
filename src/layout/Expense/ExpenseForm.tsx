@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ProvideContext } from "../../store/Store";
 
 // Material UI
@@ -24,7 +24,13 @@ const ExpenseForm = () => {
         draggable: true,
         progress: undefined,
     }
-    const { createExpense } = useContext(ProvideContext);
+    const { createExpense, editExpenseData } = useContext(ProvideContext);
+
+    useEffect(() => {
+        if (editExpenseData) {
+            setCoin(editExpenseData)
+        }
+    }, [editExpenseData])
 
     const coinHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -201,7 +207,13 @@ const ExpenseForm = () => {
                     })
                 }
                 <Grid item xs={12} sm={6} md={2}>
-                    <Button fullWidth onClick={sendItems} variant="contained">Send</Button>
+                    <Button
+                        fullWidth
+                        onClick={sendItems}
+                        color={Boolean(editExpenseData) ? "success" : "primary"}
+                        variant="contained">
+                        {Boolean(editExpenseData) ? "Update" : "Send"}
+                    </Button>
                 </Grid>
             </Grid>
         </Grid>

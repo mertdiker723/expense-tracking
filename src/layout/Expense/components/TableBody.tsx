@@ -1,33 +1,36 @@
-import { useState } from 'react';
-import { TableBody, IconButton, TableCell, Typography, Collapse, Box, Table, TableRow, Stack } from '@mui/material';
+import { useState, useContext } from 'react';
 
+// Material UI
+import { TableBody, IconButton, Typography, Collapse, Box, Table, Stack } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { StyledTableCell, StyledTableRow } from "../../../styledComponents/Expense/ExpenseStyled";
 
 import NestedTableHeader from './NestedTableHeader';
 import NestedTableBody from './NestedTableBody';
-import { StyledTableCell, StyledTableRow } from "../../../styledComponents/Expense/ExpenseStyled";
-import { IExpense } from '../../../models/expense.types';
 
+import { IExpense } from '../../../models/expense.types';
+import { ProvideContext } from "../../../store/Store";
 
 type TableBodyProps = {
-    data: IExpense[];
     setDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
     setSelectedExpense: React.Dispatch<React.SetStateAction<IExpense | undefined>>;
 }
 
-const TableBodyContainer = ({ data, setDeleteModal, setSelectedExpense }: TableBodyProps) => {
+const TableBodyContainer = ({ setDeleteModal, setSelectedExpense }: TableBodyProps) => {
+    const { expense, editExpense } = useContext(ProvideContext);
     return (
         <TableBody>
 
-            {data.length > 0 ? data.map((exp) => (
+            {expense.length > 0 ? expense.map((exp) => (
                 <TableCells
                     key={exp.id}
                     exp={exp}
                     setDeleteModal={setDeleteModal}
                     setSelectedExpense={setSelectedExpense}
+                    editExpense={editExpense}
                 />
             )) : <TableCells noData={"No data Provided"} />
             }
@@ -40,6 +43,7 @@ type TableCellRow = {
     noData?: string;
     setDeleteModal?: React.Dispatch<React.SetStateAction<boolean>>;
     setSelectedExpense?: React.Dispatch<React.SetStateAction<IExpense | undefined>>;
+    editExpense?: (data?: IExpense | undefined) => void;
 }
 
 const TableCells = (props: TableCellRow) => {
@@ -73,7 +77,7 @@ const TableCells = (props: TableCellRow) => {
                                 <IconButton aria-label="delete" size="large" onClick={() => deleteInfo(props?.exp)}>
                                     <DeleteIcon />
                                 </IconButton>
-                                <IconButton aria-label="delete" size="large">
+                                <IconButton aria-label="delete" size="large" onClick={() => props.editExpense?.(props?.exp)}>
                                     <EditIcon />
                                 </IconButton>
                             </Stack>
