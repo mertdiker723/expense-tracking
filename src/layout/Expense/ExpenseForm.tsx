@@ -24,13 +24,7 @@ const ExpenseForm = () => {
         draggable: true,
         progress: undefined,
     }
-    const { createExpense, editExpenseData } = useContext(ProvideContext);
-
-    useEffect(() => {
-        if (editExpenseData) {
-            setCoin(editExpenseData)
-        }
-    }, [editExpenseData])
+    const { createExpense } = useContext(ProvideContext);
 
     const coinHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -210,9 +204,9 @@ const ExpenseForm = () => {
                     <Button
                         fullWidth
                         onClick={sendItems}
-                        color={Boolean(editExpenseData) ? "success" : "primary"}
+                        color={"primary"}
                         variant="contained">
-                        {Boolean(editExpenseData) ? "Update" : "Send"}
+                        {"Send"}
                     </Button>
                 </Grid>
             </Grid>

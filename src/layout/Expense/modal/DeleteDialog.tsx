@@ -2,9 +2,12 @@ import { useState, useContext } from "react";
 import { DialogTitle, DialogContentText, Button, Dialog, DialogActions, DialogContent, IconButton } from '@mui/material';
 import { DialogProps } from '@mui/material/Dialog';
 import CloseIcon from '@mui/icons-material/Close';
-import { IExpense, IInformationToastify } from './../../../models/expense.types';
-import { ProvideContext } from "../../../store/Store";
+
+import Transition from "../../../components/Modal/Transition";
+
+import { IExpense, IInformationToastify } from '../../../models/expense.types';
 import { toast } from 'react-toastify';
+import { ProvideContext } from "../../../store/Store";
 
 type DeleteDialogProps = {
     open: boolean;
@@ -42,6 +45,7 @@ const DeleteDialog = ({ open, selectedExpense, setDeleteModal, setSelectedExpens
         <Dialog
             open={open}
             onClose={handleClose}
+            TransitionComponent={Transition}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
             fullWidth={true}

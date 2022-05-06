@@ -17,9 +17,10 @@ import { ProvideContext } from "../../../store/Store";
 type TableBodyProps = {
     setDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
     setSelectedExpense: React.Dispatch<React.SetStateAction<IExpense | undefined>>;
+    setUpdateModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const TableBodyContainer = ({ setDeleteModal, setSelectedExpense }: TableBodyProps) => {
+const TableBodyContainer = ({ setDeleteModal, setSelectedExpense, setUpdateModal }: TableBodyProps) => {
     const { expense, editExpense } = useContext(ProvideContext);
     return (
         <TableBody>
@@ -31,6 +32,7 @@ const TableBodyContainer = ({ setDeleteModal, setSelectedExpense }: TableBodyPro
                     setDeleteModal={setDeleteModal}
                     setSelectedExpense={setSelectedExpense}
                     editExpense={editExpense}
+                    setUpdateModal={setUpdateModal}
                 />
             )) : <TableCells noData={"No data Provided"} />
             }
@@ -44,6 +46,7 @@ type TableCellRow = {
     setDeleteModal?: React.Dispatch<React.SetStateAction<boolean>>;
     setSelectedExpense?: React.Dispatch<React.SetStateAction<IExpense | undefined>>;
     editExpense?: (data?: IExpense | undefined) => void;
+    setUpdateModal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const TableCells = (props: TableCellRow) => {
@@ -52,6 +55,11 @@ const TableCells = (props: TableCellRow) => {
     const deleteInfo = (data: IExpense | undefined) => {
         props.setDeleteModal?.(true);
         props.setSelectedExpense?.(data);
+    }
+
+    const editInfo = (data: IExpense | undefined) => {
+        props.setUpdateModal?.(true);
+        props.editExpense?.(data)
     }
     return (
         <>
@@ -77,7 +85,7 @@ const TableCells = (props: TableCellRow) => {
                                 <IconButton aria-label="delete" size="large" onClick={() => deleteInfo(props?.exp)}>
                                     <DeleteIcon />
                                 </IconButton>
-                                <IconButton aria-label="delete" size="large" onClick={() => props.editExpense?.(props?.exp)}>
+                                <IconButton aria-label="edit" size="large" onClick={() => editInfo(props?.exp)}>
                                     <EditIcon />
                                 </IconButton>
                             </Stack>

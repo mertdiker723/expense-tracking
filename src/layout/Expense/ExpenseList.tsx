@@ -1,14 +1,16 @@
 import { useState } from 'react';
 
-
 import { Paper, Table, TableContainer } from '@mui/material';
 import TableHeader from "./components/TableHeader";
 import TableBodyContainer from "./components/TableBody";
-import DeleteDialog from "./components/DeleteDialog";
 import { IExpense } from './../../models/expense.types';
+
+import ExpenseUpdateDialog from './modal/ExpenseUpdateDialog';
+import DeleteDialog from "./modal/DeleteDialog";
 
 const ExpenseList = () => {
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
+  const [updateModal, setUpdateModal] = useState<boolean>(false);
   const [selectedExpense, setSelectedExpense] = useState<IExpense | undefined>({} as IExpense);
 
   return (
@@ -18,6 +20,7 @@ const ExpenseList = () => {
           <TableHeader />
           <TableBodyContainer
             setDeleteModal={setDeleteModal}
+            setUpdateModal={setUpdateModal}
             setSelectedExpense={setSelectedExpense}
           />
         </Table>
@@ -28,7 +31,12 @@ const ExpenseList = () => {
         setDeleteModal={setDeleteModal}
         setSelectedExpense={setSelectedExpense}
       />
+      <ExpenseUpdateDialog
+        updateModal={updateModal}
+        setUpdateModal={setUpdateModal}
+      />
     </>
   );
 }
+
 export default ExpenseList;
