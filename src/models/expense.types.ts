@@ -22,6 +22,9 @@ export interface ITextField {
     icon: React.ReactNode | string;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     disabled: boolean;
+    xsGrid: number;
+    smGrid: number;
+    mdGrid: number;
 }
 
 

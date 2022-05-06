@@ -74,6 +74,9 @@ const ExpenseForm = () => {
             icon: <CurrencyBitcoinIcon />,
             onChange: coinHandleChange,
             disabled: false,
+            xsGrid: 12,
+            smGrid: 6,
+            mdGrid: 3
         },
         {
             id: 1,
@@ -86,6 +89,9 @@ const ExpenseForm = () => {
             icon: <ProductionQuantityLimitsIcon />,
             onChange: coinHandleChange,
             disabled: false,
+            xsGrid: 12,
+            smGrid: 6,
+            mdGrid: 3
         },
         {
             id: 2,
@@ -98,6 +104,9 @@ const ExpenseForm = () => {
             icon: "$",
             onChange: coinHandleChange,
             disabled: false,
+            xsGrid: 12,
+            smGrid: 6,
+            mdGrid: 3
         },
         {
             id: 3,
@@ -109,12 +118,12 @@ const ExpenseForm = () => {
             variant: "outlined",
             icon: <MonetizationOnOutlinedIcon />,
             disabled: true,
-        }
-    ];
-
-    const textFieldsBottom: ITextField[] = [
+            xsGrid: 12,
+            smGrid: 6,
+            mdGrid: 3
+        },
         {
-            id: 0,
+            id: 4,
             name: "sellCoinValue",
             label: "Sell Coin Value",
             value: coin.sellCoinValue ?? "",
@@ -123,10 +132,13 @@ const ExpenseForm = () => {
             variant: "outlined",
             icon: "$",
             onChange: coinHandleChange,
-            disabled: false
+            disabled: false,
+            xsGrid: 12,
+            smGrid: 6,
+            mdGrid: 4
         },
         {
-            id: 1,
+            id: 5,
             name: "profitLoss",
             label: "Profit / Loss",
             value: profitLossCalculation(),
@@ -134,10 +146,13 @@ const ExpenseForm = () => {
             type: "number",
             variant: "outlined",
             icon: "$",
-            disabled: true
+            disabled: true,
+            xsGrid: 12,
+            smGrid: 6,
+            mdGrid: 4
         },
         {
-            id: 2,
+            id: 6,
             name: "availableBalance",
             label: "Total Balance",
             value: totalBalance(),
@@ -145,18 +160,21 @@ const ExpenseForm = () => {
             type: "text",
             variant: "outlined",
             icon: <MonetizationOnOutlinedIcon />,
-            disabled: true
+            disabled: true,
+            xsGrid: 12,
+            smGrid: 6,
+            mdGrid: 4
         },
     ];
 
     return (
         <Grid container >
-            <Grid container spacing={3}>
+            <Grid container spacing={2}>
                 {
                     textFieldsTop.map(textField => {
-                        const { name, label, value, fullWidth, type, variant, icon, onChange, disabled } = textField;
+                        const { name, label, value, fullWidth, type, variant, icon, onChange, disabled, xsGrid, smGrid, mdGrid, id } = textField;
                         return (
-                            <Grid item xs={12} sm={6} md={3} key={textField.id}>
+                            <Grid item xs={xsGrid} sm={smGrid} md={mdGrid} key={id}>
                                 <TextField
                                     id={name}
                                     name={name}
@@ -176,30 +194,7 @@ const ExpenseForm = () => {
                     })
                 }
             </Grid>
-            <Grid container mt={1} spacing={3}>
-                {
-                    textFieldsBottom.map(textField => {
-                        const { name, label, fullWidth, type, value, variant, icon, onChange, disabled } = textField;
-                        return (
-                            <Grid item xs={12} sm={6} md={4} key={textField.id}>
-                                <TextField
-                                    id={name}
-                                    name={name}
-                                    label={label}
-                                    fullWidth={fullWidth}
-                                    type={type}
-                                    value={value}
-                                    variant={variant}
-                                    InputProps={{
-                                        endAdornment: <InputAdornment position="end">{icon}</InputAdornment>,
-                                    }}
-                                    onChange={onChange}
-                                    disabled={disabled}
-                                />
-                            </Grid>
-                        )
-                    })
-                }
+            <Grid container spacing={2} mt={0}>
                 <Grid item xs={12} sm={6} md={2}>
                     <Button
                         fullWidth
@@ -209,6 +204,7 @@ const ExpenseForm = () => {
                         {"Send"}
                     </Button>
                 </Grid>
+
             </Grid>
         </Grid>
     )
