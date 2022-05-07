@@ -4,11 +4,10 @@ import { IExpense } from './../models/expense.types';
 
 type InitialContext = {
     expense: IExpense[];
-    createExpense: (data: IExpense) => void;
+    sendExpense: (data: IExpense) => void;
     deleteExpense: (data?: IExpense) => void;
     editExpense: (data?: IExpense) => void;
     editExpenseData: IExpense | undefined;
-    updateExpense: (data: IExpense) => void;
 }
 
 export const ProvideContext = createContext<InitialContext>({} as InitialContext);
@@ -17,16 +16,15 @@ type ProvideProps = {
     children: React.ReactNode;
 }
 export const StoreProvider = ({ children }: ProvideProps) => {
-    const { expense, createExpense, deleteExpense, editExpense, updateExpense, editExpenseData } = Expense();
+    const { expense, sendExpense, deleteExpense, editExpense, editExpenseData } = Expense();
 
     return (
         <ProvideContext.Provider value={{
             expense,
-            createExpense,
+            sendExpense,
             deleteExpense,
             editExpense,
             editExpenseData,
-            updateExpense
         }}>
             {children}
         </ProvideContext.Provider>

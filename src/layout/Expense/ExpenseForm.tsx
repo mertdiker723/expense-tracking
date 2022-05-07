@@ -16,7 +16,7 @@ import { IExpense, ITextField } from "../../models/expense.types";
 import { informationToastify } from "../../components/Toastfy/ToastifyInformations";
 const ExpenseForm = () => {
     const [coin, setCoin] = useState<IExpense>({} as IExpense);
-    const { createExpense } = useContext(ProvideContext);
+    const { sendExpense } = useContext(ProvideContext);
 
     const coinHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -29,7 +29,7 @@ const ExpenseForm = () => {
     const sendItems = () => {
         const { sellCoinValue, coinName, coinCount, buyCoinValue } = coin;
         if (sellCoinValue && coinName && coinCount && buyCoinValue) {
-            createExpense({
+            sendExpense({
                 ...coin,
                 totalCost: (coin.buyCoinValue && coin.coinCount) ? +(coin.buyCoinValue * coin.coinCount).toFixed(2) : "",
                 profitLoss: (coin.coinCount && coin.sellCoinValue && coin.buyCoinValue) ? +((coin.coinCount * coin.sellCoinValue) - (coin.buyCoinValue * coin.coinCount)).toFixed(2) : "",

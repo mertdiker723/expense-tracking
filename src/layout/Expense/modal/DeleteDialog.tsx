@@ -66,7 +66,7 @@ const DeleteDialog = ({ open, selectedExpense, setDeleteModal, setSelectedExpens
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>No</Button>
-                <Button onClick={deleteExpenseDialog}>
+                <Button onClick={deleteExpenseDialog} variant="contained">
                     Yes
                 </Button>
             </DialogActions>

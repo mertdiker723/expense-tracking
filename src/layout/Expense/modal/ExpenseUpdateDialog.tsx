@@ -26,7 +26,7 @@ type ExpenseUpdateProps = {
 const ExpenseUpdateDialog = ({ updateModal, setUpdateModal }: ExpenseUpdateProps) => {
   const [coin, setCoin] = useState<IExpense>({} as IExpense);
   const [maxWidth, setMaxWidth] = useState<DialogProps['maxWidth']>('md');
-  const { editExpenseData, updateExpense } = useContext(ProvideContext);
+  const { editExpenseData, sendExpense } = useContext(ProvideContext);
 
   useEffect(() => {
     setCoin(editExpenseData ? editExpenseData : {} as IExpense);
@@ -47,7 +47,7 @@ const ExpenseUpdateDialog = ({ updateModal, setUpdateModal }: ExpenseUpdateProps
   const updateItem = () => {
     const { sellCoinValue, coinName, coinCount, buyCoinValue } = coin;
     if (sellCoinValue && coinName && coinCount && buyCoinValue) {
-      updateExpense({
+      sendExpense({
         ...coin,
         totalCost: (coin.buyCoinValue && coin.coinCount) ? +(coin.buyCoinValue * coin.coinCount).toFixed(2) : "",
         profitLoss: (coin.coinCount && coin.sellCoinValue && coin.buyCoinValue) ? +((coin.coinCount * coin.sellCoinValue) - (coin.buyCoinValue * coin.coinCount)).toFixed(2) : "",
@@ -175,7 +175,6 @@ const ExpenseUpdateDialog = ({ updateModal, setUpdateModal }: ExpenseUpdateProps
         maxWidth={maxWidth}
         keepMounted
         onClose={handleClose}
-
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle id="scroll-dialog-title">
@@ -222,7 +221,7 @@ const ExpenseUpdateDialog = ({ updateModal, setUpdateModal }: ExpenseUpdateProps
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={updateItem}>Update</Button>
+          <Button onClick={updateItem} variant="contained">Update</Button>
         </DialogActions>
       </Dialog>
     </div>

@@ -1,16 +1,19 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
 
 const TableHeader = () => {
+    const tableCell: string[] = ["Coin Name", "Piece Of Coin", "Buy Price", "Sell Price", "Profit / Loss"];
 
     return (
         <TableHead>
             <TableRow>
                 <TableCell />
-                <TableCell align="center">Coin Name</TableCell>
-                <TableCell align="center">Piece Of Coin</TableCell>
-                <TableCell align="center">Buy Price</TableCell>
-                <TableCell align="center">Sell Price</TableCell>
-                <TableCell align="center">Profit / Loss</TableCell>
+                {
+                    tableCell.map((name, index) => {
+                        return (
+                            <TableCell key={index} align="center">{name}</TableCell>
+                        )
+                    })
+                }
                 <TableCell />
             </TableRow>
         </TableHead>
