@@ -5,7 +5,7 @@ import { IExpense } from './../../models/expense.types';
 
 const Expense = () => {
     const [expense, setExpense] = useState<IExpense[]>([]);
-    const [editExpenseData, setEditExpenseData] = useState<IExpense | undefined>();
+    const [editExpenseData, setEditExpenseData] = useState<IExpense>();
 
     const createExpense = (data: IExpense) => {
         setExpense([...expense, {
@@ -23,8 +23,12 @@ const Expense = () => {
         setEditExpenseData(findedExpense);
     }
 
+    const updateExpense = (data: IExpense) => {
+        const updatedExpense = expense.map(exp => exp.id === data?.id ? data : exp);
+        setExpense(updatedExpense);
+    }
 
-    return { expense, createExpense, deleteExpense, editExpense, editExpenseData };
+    return { expense, createExpense, deleteExpense, editExpense, updateExpense, editExpenseData };
 }
 
 export default Expense

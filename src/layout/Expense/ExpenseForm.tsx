@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { ProvideContext } from "../../store/Store";
 
 // Material UI
@@ -9,21 +9,13 @@ import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantity
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 
+// Toastfy
 import { toast } from 'react-toastify';
 // Folders
-import { IExpense, ITextField, IInformationToastify } from "../../models/expense.types";
-
+import { IExpense, ITextField } from "../../models/expense.types";
+import { informationToastify } from "../../components/Toastfy/ToastifyInformations";
 const ExpenseForm = () => {
     const [coin, setCoin] = useState<IExpense>({} as IExpense);
-    const informationToastify: IInformationToastify = {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-    }
     const { createExpense } = useContext(ProvideContext);
 
     const coinHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,10 +31,9 @@ const ExpenseForm = () => {
         if (sellCoinValue && coinName && coinCount && buyCoinValue) {
             createExpense({
                 ...coin,
-                totalCost: totalCoinCalculation(),
-                profitLoss: profitLossCalculation(),
-                totalBalance: totalBalance()
-
+                totalCost: (coin.buyCoinValue && coin.coinCount) ? +(coin.buyCoinValue * coin.coinCount).toFixed(2) : "",
+                profitLoss: (coin.coinCount && coin.sellCoinValue && coin.buyCoinValue) ? +((coin.coinCount * coin.sellCoinValue) - (coin.buyCoinValue * coin.coinCount)).toFixed(2) : "",
+                totalBalance: (coin.sellCoinValue && coin.coinCount) ? +(coin.sellCoinValue * coin.coinCount).toFixed(2) : ""
             });
             setCoin({} as IExpense);
             toast.success("Added!", informationToastify);
@@ -50,17 +41,6 @@ const ExpenseForm = () => {
         else {
             toast.warn('Fields cannot be empty!', informationToastify);
         }
-    }
-    const totalCoinCalculation = (): number | "" => {
-        return (coin.buyCoinValue && coin.coinCount) ? +(coin.buyCoinValue * coin.coinCount).toFixed(2) : ""
-    }
-
-    const profitLossCalculation = (): number | "" => {
-        return (coin.coinCount && coin.sellCoinValue && coin.buyCoinValue) ? +((coin.coinCount * coin.sellCoinValue) - (coin.buyCoinValue * coin.coinCount)).toFixed(2) : "";
-    }
-
-    const totalBalance = (): number | "" => {
-        return (coin.sellCoinValue && coin.coinCount) ? +(coin.sellCoinValue * coin.coinCount).toFixed(2) : ""
     }
     const textFieldsTop: ITextField[] = [
         {
@@ -112,7 +92,7 @@ const ExpenseForm = () => {
             id: 3,
             name: "totalCoin",
             label: "Total Cost",
-            value: totalCoinCalculation(),
+            value: (coin.buyCoinValue && coin.coinCount) ? +(coin.buyCoinValue * coin.coinCount).toFixed(2) : "",
             fullWidth: true,
             type: "text",
             variant: "outlined",
@@ -141,7 +121,7 @@ const ExpenseForm = () => {
             id: 5,
             name: "profitLoss",
             label: "Profit / Loss",
-            value: profitLossCalculation(),
+            value: (coin.coinCount && coin.sellCoinValue && coin.buyCoinValue) ? +((coin.coinCount * coin.sellCoinValue) - (coin.buyCoinValue * coin.coinCount)).toFixed(2) : "",
             fullWidth: true,
             type: "number",
             variant: "outlined",
@@ -155,7 +135,7 @@ const ExpenseForm = () => {
             id: 6,
             name: "availableBalance",
             label: "Total Balance",
-            value: totalBalance(),
+            value: (coin.sellCoinValue && coin.coinCount) ? +(coin.sellCoinValue * coin.coinCount).toFixed(2) : "",
             fullWidth: true,
             type: "text",
             variant: "outlined",
@@ -169,7 +149,7 @@ const ExpenseForm = () => {
 
     return (
         <Grid container >
-            <Grid container spacing={2}>
+            <Grid container spacing={3}>
                 {
                     textFieldsTop.map(textField => {
                         const { name, label, value, fullWidth, type, variant, icon, onChange, disabled, xsGrid, smGrid, mdGrid, id } = textField;
@@ -194,7 +174,7 @@ const ExpenseForm = () => {
                     })
                 }
             </Grid>
-            <Grid container spacing={2} mt={0}>
+            <Grid container spacing={3} mt={0}>
                 <Grid item xs={12} sm={6} md={2}>
                     <Button
                         fullWidth

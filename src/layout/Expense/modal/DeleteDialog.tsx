@@ -5,7 +5,9 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import Transition from "../../../components/Modal/Transition";
 
-import { IExpense, IInformationToastify } from '../../../models/expense.types';
+
+import { informationToastify } from "../../../components/Toastfy/ToastifyInformations";
+import { IExpense } from '../../../models/expense.types';
 import { toast } from 'react-toastify';
 import { ProvideContext } from "../../../store/Store";
 
@@ -19,16 +21,6 @@ type DeleteDialogProps = {
 const DeleteDialog = ({ open, selectedExpense, setDeleteModal, setSelectedExpense }: DeleteDialogProps) => {
     const [maxWidth, setMaxWidth] = useState<DialogProps['maxWidth']>('sm');
     const { deleteExpense } = useContext(ProvideContext);
-
-    const informationToastify: IInformationToastify = {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-    }
     const deleteExpenseDialog = () => {
         if (selectedExpense) {
             deleteExpense?.(selectedExpense);
