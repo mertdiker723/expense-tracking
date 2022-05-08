@@ -1,22 +1,14 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 // Material UI
 import { IconButton, Grid, TextField, InputAdornment, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { DialogProps } from '@mui/material/Dialog';
 
 // Icons
-import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
-import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
-import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 import CloseIcon from '@mui/icons-material/Close';
-
-import { toast } from 'react-toastify';
-
 // Folders
-import { informationToastify } from "../../../components/Toastfy/ToastifyInformations";
+import Expense from "../Expense";
 import Transition from "../../../components/Modal/Transition";
-import { IExpense, ITextField } from "../../../models/expense.types";
-// Context
-import { ProvideContext } from "../../../store/Store";
+import { IExpense } from "../../../models/expense.types";
 
 type ExpenseUpdateProps = {
   updateModal: boolean;
@@ -24,148 +16,20 @@ type ExpenseUpdateProps = {
 }
 
 const ExpenseUpdateDialog = ({ updateModal, setUpdateModal }: ExpenseUpdateProps) => {
-  const [coin, setCoin] = useState<IExpense>({} as IExpense);
-  const [maxWidth, setMaxWidth] = useState<DialogProps['maxWidth']>('md');
-  const { editExpenseData, sendExpense } = useContext(ProvideContext);
+  const [maxWidth, setMaxWidth] = useState<DialogProps['maxWidth']>('md'); // eslint-disable-line
+  const { textFieldsTop, setCoin, sendItems, editExpenseData } = Expense();
 
   useEffect(() => {
     setCoin(editExpenseData ? editExpenseData : {} as IExpense);
-  }, [editExpenseData])
+  }, [editExpenseData, updateModal]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleClose = () => {
     setUpdateModal(false);
   };
-
-  const coinHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setCoin({
-      ...coin,
-      [name]: value
-    })
-  }
-
   const updateItem = () => {
-    const { sellCoinValue, coinName, coinCount, buyCoinValue } = coin;
-    if (sellCoinValue && coinName && coinCount && buyCoinValue) {
-      sendExpense({
-        ...coin,
-        totalCost: (coin.buyCoinValue && coin.coinCount) ? +(coin.buyCoinValue * coin.coinCount).toFixed(2) : "",
-        profitLoss: (coin.coinCount && coin.sellCoinValue && coin.buyCoinValue) ? +((coin.coinCount * coin.sellCoinValue) - (coin.buyCoinValue * coin.coinCount)).toFixed(2) : "",
-        totalBalance: (coin.sellCoinValue && coin.coinCount) ? +(coin.sellCoinValue * coin.coinCount).toFixed(2) : ""
-      });
-      setCoin({} as IExpense);
-      handleClose();
-      toast.success("Updated!", informationToastify);
-    }
-    else {
-      toast.warn('Fields cannot be empty!', informationToastify);
-    }
+    sendItems("Updated!");
+    handleClose();
   }
-
-  const textFieldsTop: ITextField[] = [
-    {
-      id: 0,
-      name: "coinName",
-      label: "Coin Name",
-      value: coin.coinName ?? "",
-      fullWidth: true,
-      type: "text",
-      variant: "outlined",
-      icon: <CurrencyBitcoinIcon />,
-      onChange: coinHandleChange,
-      disabled: false,
-      xsGrid: 12,
-      smGrid: 6,
-      mdGrid: 3
-    },
-    {
-      id: 1,
-      name: "coinCount",
-      label: "Piece Of Coin",
-      value: coin.coinCount ?? "",
-      fullWidth: true,
-      type: "number",
-      variant: "outlined",
-      icon: <ProductionQuantityLimitsIcon />,
-      onChange: coinHandleChange,
-      disabled: false,
-      xsGrid: 12,
-      smGrid: 6,
-      mdGrid: 3
-    },
-    {
-      id: 2,
-      name: "buyCoinValue",
-      label: "Buy Coin Value",
-      value: coin.buyCoinValue ?? "",
-      fullWidth: true,
-      type: "number",
-      variant: "outlined",
-      icon: "$",
-      onChange: coinHandleChange,
-      disabled: false,
-      xsGrid: 12,
-      smGrid: 6,
-      mdGrid: 3
-    },
-    {
-      id: 3,
-      name: "totalCoin",
-      label: "Total Cost",
-      value: (coin.buyCoinValue && coin.coinCount) ? +(coin.buyCoinValue * coin.coinCount).toFixed(2) : "",
-      fullWidth: true,
-      type: "text",
-      variant: "outlined",
-      icon: <MonetizationOnOutlinedIcon />,
-      disabled: true,
-      xsGrid: 12,
-      smGrid: 6,
-      mdGrid: 3
-    },
-    {
-      id: 4,
-      name: "sellCoinValue",
-      label: "Sell Coin Value",
-      value: coin.sellCoinValue ?? "",
-      fullWidth: true,
-      type: "number",
-      variant: "outlined",
-      icon: "$",
-      onChange: coinHandleChange,
-      disabled: false,
-      xsGrid: 12,
-      smGrid: 6,
-      mdGrid: 4
-    },
-    {
-      id: 5,
-      name: "profitLoss",
-      label: "Profit / Loss",
-      value: (coin.coinCount && coin.sellCoinValue && coin.buyCoinValue) ? +((coin.coinCount * coin.sellCoinValue) - (coin.buyCoinValue * coin.coinCount)).toFixed(2) : "",
-      fullWidth: true,
-      type: "number",
-      variant: "outlined",
-      icon: "$",
-      disabled: true,
-      xsGrid: 12,
-      smGrid: 6,
-      mdGrid: 4
-    },
-    {
-      id: 6,
-      name: "availableBalance",
-      label: "Total Balance",
-      value: (coin.sellCoinValue && coin.coinCount) ? +(coin.sellCoinValue * coin.coinCount).toFixed(2) : "",
-      fullWidth: true,
-      type: "text",
-      variant: "outlined",
-      icon: <MonetizationOnOutlinedIcon />,
-      disabled: true,
-      xsGrid: 12,
-      smGrid: 6,
-      mdGrid: 4
-    },
-  ];
 
   return (
     <div>
@@ -221,7 +85,7 @@ const ExpenseUpdateDialog = ({ updateModal, setUpdateModal }: ExpenseUpdateProps
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={updateItem} variant="contained">Update</Button>
+          <Button onClick={updateItem} color="success" variant="contained">Update</Button>
         </DialogActions>
       </Dialog>
     </div>
