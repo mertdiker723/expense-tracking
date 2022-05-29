@@ -42,7 +42,7 @@ const ExpenseUpdateDialog = ({ updateModal, setUpdateModal }: ExpenseUpdateProps
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle id="scroll-dialog-title">
-          Subscribe
+          Update Expense
           <IconButton
             aria-label="close"
             onClick={handleClose}

@@ -10,6 +10,8 @@ import Information from './pages/Information/Information';
 import { StoreProvider } from './store/Store';
 import { ToastContainer } from 'react-toastify';
 
+import "./style/app.css"
+
 const App = () => {
   return (
     <StoreProvider>
