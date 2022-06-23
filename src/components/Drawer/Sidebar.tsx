@@ -17,11 +17,6 @@ const navbarElements = [
         id: 2,
         label: "Expense",
         path: "/expense"
-    },
-    {
-        id: 3,
-        label: "Information",
-        path: "/information"
     }
 ]
 const Sidebar = () => {

@@ -6,7 +6,6 @@ import Navbar from './components/Drawer/Navbar';
 import Sidebar from './components/Drawer/Sidebar';
 import Home from './pages/Home/Home';
 import Expense from './pages/Expense/Expense';
-import Information from './pages/Information/Information';
 import { StoreProvider } from './store/Store';
 import { ToastContainer } from 'react-toastify';
 
@@ -25,7 +24,6 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/expense" element={<Expense />} />
-              <Route path="/information" element={<Information />} />
             </Routes>
           </Box>
         </Box>
