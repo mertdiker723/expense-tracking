@@ -23,6 +23,7 @@ const Expense = () => {
             [name]: value
         })
     }
+    
 
     const sendItems = (text: string) => {
         const { sellCoinValue, coinName, coinCount, buyCoinValue } = coin;
